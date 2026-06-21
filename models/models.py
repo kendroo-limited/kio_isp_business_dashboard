@@ -273,13 +273,19 @@ class KioIspBusinessDashboard(models.AbstractModel):
         return groups[0]["total_amount"] if groups else 0.0
 
     def _expense_action(self, name, date_from, date_to):
+        """Total Expenses কার্ডে ক্লিক করলে Custom Expenses Dashboard খুলবে"""
         return {
-            "type": "ir.actions.act_window",
-            "name": name,
-            "res_model": "hr.expense",
-            "views": [[False, "tree"], [False, "form"]],
-            "domain": self._expense_domain(date_from, date_to),
-            "context": {"create": False},
+            "type": "ir.actions.client",
+            "name": name or "Expenses Dashboard",
+            "tag": "kio_isp_management.expense_dashboard",  # তোমার XML এ যে tag আছে
+            "params": {
+                "date_from": date_from.isoformat() if date_from else False,
+                "date_to": date_to.isoformat() if date_to else False,
+            },
+            "context": {
+                "date_from": str(date_from) if date_from else False,
+                "date_to": str(date_to) if date_to else False,
+            }
         }
 
     def _move_line_action(self, name, date_from, date_to, account_types):
