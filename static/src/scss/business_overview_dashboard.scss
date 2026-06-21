@@ -1,0 +1,566 @@
+.kio-business-dashboard {
+    min-height: 100%;
+    padding: 22px;
+    background: #f4f7fb;
+    color: #111827;
+    overflow: auto;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.kio-dashboard-loading {
+    display: grid;
+    min-height: 420px;
+    place-items: center;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.kio-dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.kio-header-copy h1 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 28px;
+    line-height: 1.15;
+    font-weight: 800;
+}
+
+.kio-header-copy p {
+    margin: 6px 0 0;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.kio-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.kio-control,
+.kio-link-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 38px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #fff;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.kio-control {
+    padding: 0 14px;
+}
+
+.kio-control.primary,
+.kio-link-btn {
+    border-color: #2563eb;
+    background: #2563eb;
+    color: #fff;
+}
+
+.kio-control:hover,
+.kio-link-btn:hover,
+.kio-kpi-card:hover,
+.kio-card:hover,
+.kio-nav-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 34px rgba(15, 23, 42, 0.1);
+}
+
+.kio-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 42px;
+    padding: 5px 12px 5px 6px;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+}
+
+.kio-avatar {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: #fff;
+    font-weight: 800;
+}
+
+.kio-profile strong,
+.kio-profile small {
+    display: block;
+    line-height: 1.15;
+}
+
+.kio-profile strong {
+    color: #0f172a;
+    font-size: 13px;
+}
+
+.kio-profile small {
+    margin-top: 2px;
+    color: #64748b;
+    font-size: 11px;
+}
+
+.kio-kpi-row {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.kio-kpi-row.primary {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.kio-kpi-row.secondary {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.kio-kpi-card,
+.kio-card {
+    border: 1px solid #e7edf5;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.055);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.kio-kpi-card {
+    position: relative;
+    min-height: 158px;
+    padding: 18px;
+    overflow: hidden;
+}
+
+.kio-kpi-card::after {
+    content: "";
+    position: absolute;
+    right: -26px;
+    bottom: -30px;
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--kio-tone) 10%, #fff);
+}
+
+.kio-kpi-top {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.kio-kpi-icon {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border-radius: 13px;
+    background: color-mix(in srgb, var(--kio-tone) 12%, #fff);
+    color: var(--kio-tone);
+    font-size: 18px;
+}
+
+.kio-change {
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: #ecfdf3;
+    color: #16a34a;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.kio-change.down {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+.kio-kpi-title {
+    position: relative;
+    z-index: 1;
+    display: block;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.kio-kpi-card strong {
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin-top: 9px;
+    color: #0f172a;
+    font-size: 24px;
+    line-height: 1.08;
+    font-weight: 850;
+}
+
+.kio-kpi-card a {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    margin-top: 14px;
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.kio-dashboard-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 286px;
+    gap: 14px;
+    align-items: start;
+}
+
+.kio-main-content {
+    display: grid;
+    gap: 14px;
+}
+
+.kio-third-row,
+.kio-fourth-row {
+    display: grid;
+    grid-template-columns: minmax(320px, 1.1fr) minmax(280px, .95fr) minmax(280px, .95fr);
+    gap: 14px;
+}
+
+.kio-card {
+    min-height: 322px;
+    padding: 18px;
+}
+
+.kio-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.kio-card-header.compact {
+    margin-bottom: 14px;
+}
+
+.kio-card-header h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 17px;
+    line-height: 1.2;
+    font-weight: 800;
+}
+
+.kio-card-header p {
+    margin: 4px 0 0;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.kio-link-btn {
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 12px;
+}
+
+.kio-pl-table,
+.kio-due-table,
+.kio-legend-list {
+    display: grid;
+}
+
+.kio-pl-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    min-height: 37px;
+    border-bottom: 1px solid #edf2f7;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.kio-pl-row.highlight {
+    color: #0f172a;
+    font-weight: 850;
+}
+
+.kio-pl-row:last-child {
+    border-bottom: 0;
+}
+
+.kio-pl-row strong {
+    color: inherit;
+    white-space: nowrap;
+}
+
+.kio-donut-body {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+}
+
+.kio-donut {
+    display: grid;
+    width: 150px;
+    height: 150px;
+    place-items: center;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 26px #fff, 0 0 0 1px #eef2f7;
+}
+
+.kio-donut > div {
+    display: grid;
+    width: 88px;
+    height: 88px;
+    place-items: center;
+    border-radius: 50%;
+    background: #fff;
+    text-align: center;
+}
+
+.kio-donut strong,
+.kio-donut span {
+    display: block;
+}
+
+.kio-donut strong {
+    margin-top: 15px;
+    color: #0f172a;
+    font-size: 21px;
+    font-weight: 850;
+}
+
+.kio-donut span {
+    margin-top: -20px;
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.kio-legend-list {
+    gap: 10px;
+}
+
+.kio-legend-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 9px;
+}
+
+.kio-legend-row strong,
+.kio-legend-row small {
+    display: block;
+}
+
+.kio-legend-row strong {
+    color: #334155;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.kio-legend-row small {
+    margin-top: 2px;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 650;
+}
+
+.kio-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--kio-tone);
+}
+
+.kio-due-head,
+.kio-due-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(92px, .8fr) 82px;
+    align-items: center;
+    gap: 10px;
+}
+
+.kio-due-head {
+    min-height: 34px;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 850;
+}
+
+.kio-due-head span,
+.kio-due-row > * {
+    padding: 0 8px;
+}
+
+.kio-due-row {
+    min-height: 43px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.kio-due-row strong {
+    overflow: hidden;
+    color: #0f172a;
+    font-size: 13px;
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.kio-due-row span {
+    color: #334155;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.kio-due-row em {
+    color: #ef4444;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 850;
+}
+
+.kio-empty-state {
+    display: grid;
+    min-height: 120px;
+    place-items: center;
+    color: #94a3b8;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.kio-quick-nav {
+    position: sticky;
+    top: 12px;
+    min-height: auto;
+}
+
+.kio-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.kio-nav-card {
+    display: grid;
+    min-height: 82px;
+    place-items: center;
+    gap: 8px;
+    border: 1px solid #e7edf5;
+    border-radius: 14px;
+    background: #fff;
+    color: #334155;
+    font-size: 11px;
+    font-weight: 800;
+    text-align: center;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.045);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.kio-nav-card i {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border-radius: 11px;
+    background: color-mix(in srgb, var(--kio-tone) 12%, #fff);
+    color: var(--kio-tone);
+    font-size: 16px;
+}
+
+.kio-tone-blue { --kio-tone: #2563eb; }
+.kio-tone-green { --kio-tone: #16a34a; }
+.kio-tone-orange { --kio-tone: #f59e0b; }
+.kio-tone-red { --kio-tone: #ef4444; }
+.kio-tone-violet { --kio-tone: #7c3aed; }
+.kio-tone-cyan { --kio-tone: #0891b2; }
+
+@media (max-width: 1600px) {
+    .kio-kpi-row.primary {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1280px) {
+    .kio-dashboard-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .kio-quick-nav {
+        position: static;
+    }
+}
+
+@media (max-width: 1100px) {
+    .kio-dashboard-header,
+    .kio-header-actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .kio-header-actions,
+    .kio-control {
+        width: 100%;
+    }
+
+    .kio-kpi-row.primary,
+    .kio-kpi-row.secondary,
+    .kio-third-row,
+    .kio-fourth-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .kio-business-dashboard {
+        padding: 14px;
+    }
+
+    .kio-kpi-row.primary,
+    .kio-kpi-row.secondary,
+    .kio-third-row,
+    .kio-fourth-row,
+    .kio-donut-body {
+        grid-template-columns: 1fr;
+    }
+
+    .kio-donut {
+        justify-self: center;
+    }
+
+    .kio-card-header {
+        flex-direction: column;
+    }
+
+    .kio-nav-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

@@ -1,0 +1,38 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+*.pyd
+
+# IDE / Editor folders
+.vscode/
+.idea/
+.cursor/
+.codium/
+.codex/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+
+# Odoo specific
+*.log
+*.tmp
+filestore/
+sessions/
+.mypy_cache/
+.pytest_cache/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Local config (if any)
+config/local_*.py
