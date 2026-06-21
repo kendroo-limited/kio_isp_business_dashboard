@@ -10,7 +10,7 @@
 
             <t t-else="">
 
-                <!-- ================= HEADER ================= -->
+                <!-- HEADER -->
                 <section class="kio-dashboard-header">
                     <div class="kio-brand-block">
                         <span class="kio-app-mark"><i/><i/><i/><i/></span>
@@ -19,38 +19,16 @@
                             <p t-esc="state.data.period.subtitle"/>
                         </div>
                     </div>
-
-                    <div class="kio-header-actions">
-                        <form class="kio-date-range" t-on-submit.prevent="applyDateRange">
-                            <i class="fa fa-calendar"/>
-                            <input type="date" t-att-value="state.dateFrom" t-on-change="updateDateFrom"/>
-                            <span>-</span>
-                            <input type="date" t-att-value="state.dateTo" t-on-change="updateDateTo"/>
-                            <button type="submit"><i class="fa fa-check"/></button>
-                        </form>
-
-                        <button class="kio-control primary" type="button">
-                            <i class="fa fa-download"/> Export
-                        </button>
-
-                        <div class="kio-profile">
-                            <div>
-                                <strong>Owner</strong>
-                                <small>Super Admin</small>
-                            </div>
-                            <span class="kio-avatar">A</span>
-                        </div>
-                    </div>
                 </section>
 
-                <!-- ================= ROW 1: PRIMARY KPI ================= -->
+                <!-- ROW 1 KPI -->
                 <section class="kio-kpi-row primary">
                     <t t-foreach="state.data.primary_kpis" t-as="kpi" t-key="kpi.title">
                         <t t-call="kio_isp_business_dashboard.KpiCard"/>
                     </t>
                 </section>
 
-                <!-- ================= ROW 2: SECONDARY KPI ================= -->
+                <!-- ROW 2 KPI -->
                 <div class="kio-kpi-scroll-wrapper">
                     <section class="kio-kpi-row secondary kio-kpi-row-scrollable">
                         <t t-foreach="state.data.secondary_kpis" t-as="kpi" t-key="kpi.title">
@@ -59,7 +37,7 @@
                     </section>
                 </div>
 
-                <!-- ================= ROW 3: 4 CARDS ================= -->
+                <!-- ROW 3 -->
                 <section class="kio-fourth-row">
 
                     <!-- Aged Receivable -->
@@ -77,6 +55,10 @@
                     <!-- Aged Payable -->
                     <t t-set="panelTitle" t-value="'Aged Payable'"/>
                     <t t-set="panelItems" t-value="state.data.aged_payable"/>
+
+                    <!-- 🔥 FIX: ADD ACTION -->
+                    <t t-set="panelAction" t-value="'kio_account_reports.action_account_report_ap'"/>
+
                     <t t-call="kio_isp_business_dashboard.DonutPanel"/>
 
                     <!-- Top Due Vendors -->
@@ -87,7 +69,7 @@
 
                 </section>
 
-                <!-- ================= ROW 4: BOTTOM ROW ================= -->
+                <!-- ROW 4 -->
                 <section class="kio-third-row">
 
                     <!-- Profit & Loss -->
@@ -149,35 +131,22 @@
         </div>
     </t>
 
-    <!-- ================= KPI CARD ================= -->
+    <!-- KPI CARD -->
     <t t-name="kio_isp_business_dashboard.KpiCard">
         <article class="kio-kpi-card kio-tone-{{ kpi.tone }}"
                  t-on-click="() => this.openKpiAction(kpi)">
 
-            <div class="kio-kpi-top">
-                <span class="kio-kpi-icon">
-                    <i t-attf-class="fa {{ kpi.icon }}"/>
-                </span>
-
-                <span t-att-class="kpi.change.indexOf('-') === 0 ? 'kio-change down' : 'kio-change'"
-                      t-esc="kpi.change"/>
-            </div>
-
-            <span class="kio-kpi-title" t-esc="kpi.title"/>
+            <span t-esc="kpi.title"/>
             <strong t-esc="formatMetric(kpi)"/>
-
-            <a href="#" t-on-click.prevent.stop="() => this.openKpiAction(kpi)">
-                View Details
-            </a>
 
         </article>
     </t>
 
-    <!-- ================= DONUT ================= -->
+    <!-- DONUT PANEL -->
     <t t-name="kio_isp_business_dashboard.DonutPanel">
         <article class="kio-card kio-donut-card"
                  t-on-click="() => this.openPanelAction(panelAction)">
-    
+
             <div class="kio-card-header compact">
                 <h2 t-esc="panelTitle"/>
             </div>
@@ -208,7 +177,7 @@
         </article>
     </t>
 
-    <!-- ================= TABLE ================= -->
+    <!-- TABLE -->
     <t t-name="kio_isp_business_dashboard.DueTable">
         <article class="kio-card kio-table-card">
 

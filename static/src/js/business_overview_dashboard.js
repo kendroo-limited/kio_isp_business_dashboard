@@ -118,9 +118,10 @@ export class BusinessOverviewDashboard extends Component {
         await this.action.doAction(kpi.action);
     }
 
-    // ================= PANEL CLICK (NEW FIX) =================
+    // ================= PANEL CLICK (FIXED FOR AR/AP) =================
     async openPanelAction(action) {
         if (!action) return;
+
         await this.action.doAction(action);
     }
 
