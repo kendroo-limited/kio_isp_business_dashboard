@@ -55,6 +55,13 @@ export class BusinessOverviewDashboard extends Component {
         return `background: conic-gradient(${stops.join(", ") || "#e5e7eb 0% 100%"});`;
     }
 
+    async openKpiAction(kpi) {
+        if (!kpi || !kpi.action || !kpi.action.type) {
+            return;
+        }
+        await this.action.doAction(kpi.action);
+    }
+
     openInvoices() {
         this.action.doAction("account.action_move_out_invoice_type");
     }

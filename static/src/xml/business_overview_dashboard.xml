@@ -96,14 +96,14 @@
     </t>
 
     <t t-name="kio_isp_business_dashboard.KpiCard">
-        <article t-attf-class="kio-kpi-card kio-tone-{{ kpi.tone }}">
+        <article t-attf-class="kio-kpi-card kio-tone-{{ kpi.tone }}" t-on-click="() => this.openKpiAction(kpi)">
             <div class="kio-kpi-top">
                 <span class="kio-kpi-icon"><i t-attf-class="fa {{ kpi.icon }}"/></span>
                 <span t-att-class="kpi.change.indexOf('-') === 0 ? 'kio-change down' : 'kio-change'" t-esc="kpi.change"/>
             </div>
             <span class="kio-kpi-title" t-esc="kpi.title"/>
             <strong t-esc="formatMetric(kpi)"/>
-            <a href="#" role="button">View Details</a>
+            <a href="#" role="button" t-on-click.prevent.stop="() => this.openKpiAction(kpi)">View Details</a>
         </article>
     </t>
 

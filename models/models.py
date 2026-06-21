@@ -38,18 +38,18 @@ class KioIspBusinessDashboard(models.AbstractModel):
                 "subtitle": "Real-time summary of your business performance",
             },
             "primary_kpis": [
-                self._kpi("Total Sales", revenue, "+12.6%", "fa-line-chart", "blue"),
-                self._kpi("Total Collection", collection, "+8.2%", "fa-credit-card", "green"),
-                self._kpi("Total Invoice", invoice_total, "+4.7%", "fa-file-text-o", "violet", "number"),
-                self._kpi("Total Expenses", cogs + operating_expenses, "-3.4%", "fa-shopping-bag", "orange"),
-                self._kpi("Gross Profit", gross_profit, "+10.9%", "fa-pie-chart", "cyan"),
-                self._kpi("Net Profit", net_profit, "+7.8%", "fa-trophy", "red"),
+                self._kpi("Total Sales", revenue, "+12.6%", "fa-line-chart", "blue", action=self._move_action("Total Sales", date_from, today, ["out_invoice", "out_refund"])),
+                self._kpi("Total Collection", collection, "+8.2%", "fa-credit-card", "green", action=self._payment_action("Total Collection", date_from, today, "inbound")),
+                self._kpi("Total Invoice", invoice_total, "+4.7%", "fa-file-text-o", "violet", "number", action=self._move_action("Total Invoice", date_from, today, ["out_invoice"])),
+                self._kpi("Total Expenses", cogs + operating_expenses, "-3.4%", "fa-shopping-bag", "orange", action=self._move_action("Total Expenses", date_from, today, ["in_invoice", "in_refund"])),
+                self._kpi("Gross Profit", gross_profit, "+10.9%", "fa-pie-chart", "cyan", action=self._move_line_action("Gross Profit", date_from, today, ["income", "income_other", "expense_direct_cost"])),
+                self._kpi("Net Profit", net_profit, "+7.8%", "fa-trophy", "red", action=self._move_line_action("Net Profit", date_from, today, ["income", "income_other", "expense", "expense_depreciation", "expense_direct_cost"])),
             ],
             "secondary_kpis": [
-                self._kpi("Cash In Hand", cash_in_hand, "Available", "fa-money", "green"),
-                self._kpi("Bank Balance", bank_balance, "Current", "fa-university", "blue"),
-                self._kpi("Accounts Receivable", receivable, "Open dues", "fa-user-plus", "violet"),
-                self._kpi("Accounts Payable", payable, "Vendor dues", "fa-user-times", "orange"),
+                self._kpi("Cash In Hand", cash_in_hand, "Available", "fa-money", "green", action=self._journal_action("Cash In Hand", "cash")),
+                self._kpi("Bank Balance", bank_balance, "Current", "fa-university", "blue", action=self._journal_action("Bank Balance", "bank")),
+                self._kpi("Accounts Receivable", receivable, "Open dues", "fa-user-plus", "violet", action=self._move_line_action("Accounts Receivable", None, None, ["asset_receivable"])),
+                self._kpi("Accounts Payable", payable, "Vendor dues", "fa-user-times", "orange", action=self._move_line_action("Accounts Payable", None, None, ["liability_payable"])),
             ],
             "pl_rows": [
                 {"label": "Total Revenue", "amount": revenue, "highlight": False},
@@ -68,8 +68,74 @@ class KioIspBusinessDashboard(models.AbstractModel):
             "quick_nav": self._quick_nav_items(),
         }
 
-    def _kpi(self, title, value, change, icon, tone, value_type="currency"):
-        return {"title": title, "value": value, "change": change, "icon": icon, "tone": tone, "value_type": value_type}
+    def _kpi(self, title, value, change, icon, tone, value_type="currency", action=None, action_key=None):
+        return {
+            "title": title,
+            "value": value,
+            "change": change,
+            "icon": icon,
+            "tone": tone,
+            "value_type": value_type,
+            "action": action or {},
+            "action_key": action_key,
+        }
+
+    def _move_action(self, name, date_from, date_to, move_types):
+        domain = self._posted_move_domain(date_from, date_to, move_types)
+        return {
+            "type": "ir.actions.act_window",
+            "name": name,
+            "res_model": "account.move",
+            "views": [[False, "list"], [False, "form"]],
+            "domain": domain,
+            "context": {"create": False},
+        }
+
+    def _payment_action(self, name, date_from, date_to, payment_type):
+        domain = [
+            ("state", "=", "posted"),
+            ("company_id", "=", self.env.company.id),
+            ("date", ">=", date_from),
+            ("date", "<=", date_to),
+            ("payment_type", "=", payment_type),
+        ]
+        return {
+            "type": "ir.actions.act_window",
+            "name": name,
+            "res_model": "account.payment",
+            "views": [[False, "list"], [False, "form"]],
+            "domain": domain,
+            "context": {"create": False},
+        }
+
+    def _move_line_action(self, name, date_from, date_to, account_types):
+        domain = [
+            ("parent_state", "=", "posted"),
+            ("company_id", "=", self.env.company.id),
+            ("account_id.account_type", "in", account_types),
+        ]
+        if date_from:
+            domain.append(("date", ">=", date_from))
+        if date_to:
+            domain.append(("date", "<=", date_to))
+        return {
+            "type": "ir.actions.act_window",
+            "name": name,
+            "res_model": "account.move.line",
+            "views": [[False, "list"], [False, "form"]],
+            "domain": domain,
+            "context": {"create": False},
+        }
+
+    def _journal_action(self, name, journal_type):
+        return {
+            "type": "ir.actions.act_window",
+            "name": name,
+            "res_model": "account.journal",
+            "views": [[False, "list"], [False, "form"]],
+            "domain": [("company_id", "=", self.env.company.id), ("type", "=", journal_type)],
+            "context": {"create": False},
+        }
 
     def _posted_move_domain(self, date_from=None, date_to=None, move_type=None):
         domain = [("state", "=", "posted"), ("company_id", "=", self.env.company.id)]

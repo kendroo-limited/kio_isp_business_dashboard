@@ -1410,3 +1410,11 @@
         grid-template-columns: 1fr !important;
     }
 }
+
+.kio-kpi-card {
+    cursor: pointer;
+}
+
+.kio-kpi-card:hover {
+    border-color: color-mix(in srgb, var(--kio-tone) 28%, #dfe6ef) !important;
+}
