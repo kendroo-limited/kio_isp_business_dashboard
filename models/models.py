@@ -38,7 +38,7 @@ class KioIspBusinessDashboard(models.AbstractModel):
                 "subtitle": "Real-time summary of your business performance",
             },
             "primary_kpis": [
-                self._kpi("Total Sales", revenue, "+12.6%", "fa-line-chart", "blue", action=self._move_action("Total Sales", date_from, today, ["out_invoice", "out_refund"])),
+                self._kpi("Total Sales", revenue, "+12.6%", "fa-line-chart", "blue", action=self._sale_order_action("Total Sales", date_from, today)),
                 self._kpi("Total Collection", collection, "+8.2%", "fa-credit-card", "green", action=self._payment_action("Total Collection", date_from, today, "inbound")),
                 self._kpi("Total Invoice", invoice_total, "+4.7%", "fa-file-text-o", "violet", "number", action=self._move_action("Total Invoice", date_from, today, ["out_invoice"])),
                 self._kpi("Total Expenses", cogs + operating_expenses, "-3.4%", "fa-shopping-bag", "orange", action=self._expense_action("Total Expenses", date_from, today)),
@@ -78,6 +78,20 @@ class KioIspBusinessDashboard(models.AbstractModel):
             "value_type": value_type,
             "action": action or {},
             "action_key": action_key,
+        }
+
+    def _sale_order_action(self, name, date_from, date_to):
+        return {
+            "type": "ir.actions.act_window",
+            "name": name,
+            "res_model": "sale.order",
+            "views": [[False, "tree"], [False, "form"]],
+            "domain": [
+                ("company_id", "=", self.env.company.id),
+                ("date_order", ">=", fields.Datetime.to_datetime(date_from)),
+                ("date_order", "<", fields.Datetime.to_datetime(date_to) + timedelta(days=1)),
+            ],
+            "context": {"create": False},
         }
 
     def _move_action(self, name, date_from, date_to, move_types):
