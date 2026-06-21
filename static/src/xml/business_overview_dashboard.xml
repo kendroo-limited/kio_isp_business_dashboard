@@ -65,6 +65,7 @@
                     <!-- Aged Receivable -->
                     <t t-set="panelTitle" t-value="'Aged Receivable'"/>
                     <t t-set="panelItems" t-value="state.data.aged_receivable"/>
+                    <t t-set="panelAction" t-value="'kio_account_reports.action_account_report_ar'"/>
                     <t t-call="kio_isp_business_dashboard.DonutPanel"/>
 
                     <!-- Top Due Customers -->
@@ -174,8 +175,9 @@
 
     <!-- ================= DONUT ================= -->
     <t t-name="kio_isp_business_dashboard.DonutPanel">
-        <article class="kio-card kio-donut-card">
-
+        <article class="kio-card kio-donut-card"
+                 t-on-click="() => this.openPanelAction(panelAction)">
+    
             <div class="kio-card-header compact">
                 <h2 t-esc="panelTitle"/>
             </div>
@@ -203,7 +205,6 @@
                 </div>
 
             </div>
-
         </article>
     </t>
 

@@ -8,6 +8,7 @@ export class BusinessOverviewDashboard extends Component {
     setup() {
         this.orm = useService("orm");
         this.action = useService("action");
+
         this.state = useState({
             loading: true,
             data: {},
@@ -20,15 +21,28 @@ export class BusinessOverviewDashboard extends Component {
         });
     }
 
+    // ================= LOAD DATA =================
     async loadDashboardData() {
         this.state.loading = true;
-        const args = this.state.dateFrom && this.state.dateTo ? [this.state.dateFrom, this.state.dateTo] : [];
-        this.state.data = await this.orm.call("kio.isp.business.dashboard", "get_dashboard_data", args);
+
+        const args =
+            this.state.dateFrom && this.state.dateTo
+                ? [this.state.dateFrom, this.state.dateTo]
+                : [];
+
+        this.state.data = await this.orm.call(
+            "kio.isp.business.dashboard",
+            "get_dashboard_data",
+            args
+        );
+
         this.state.dateFrom = this.state.data.period.date_from;
         this.state.dateTo = this.state.data.period.date_to;
+
         this.state.loading = false;
     }
 
+    // ================= DATE FILTER =================
     updateDateFrom(ev) {
         this.state.dateFrom = ev.target.value;
     }
@@ -38,24 +52,31 @@ export class BusinessOverviewDashboard extends Component {
     }
 
     async applyDateRange() {
-        if (!this.state.dateFrom || !this.state.dateTo) {
-            return;
-        }
+        if (!this.state.dateFrom || !this.state.dateTo) return;
+
         if (this.state.dateFrom > this.state.dateTo) {
-            const dateFrom = this.state.dateFrom;
+            const temp = this.state.dateFrom;
             this.state.dateFrom = this.state.dateTo;
-            this.state.dateTo = dateFrom;
+            this.state.dateTo = temp;
         }
+
         await this.loadDashboardData();
     }
 
+    // ================= FORMAT HELPERS =================
     formatCurrency(amount) {
         const currency = this.state.data.currency || {};
+
         const value = Math.abs(amount || 0).toLocaleString(undefined, {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
         });
-        const formatted = currency.position === "after" ? `${value} ${currency.symbol || ""}` : `${currency.symbol || ""} ${value}`;
+
+        const formatted =
+            currency.position === "after"
+                ? `${value} ${currency.symbol || ""}`
+                : `${currency.symbol || ""} ${value}`;
+
         return amount < 0 ? `-${formatted}` : formatted.trim();
     }
 
@@ -79,22 +100,31 @@ export class BusinessOverviewDashboard extends Component {
             violet: "#7c3aed",
             cyan: "#0891b2",
         };
+
         let cursor = 0;
+
         const stops = (items || []).map((item) => {
             const start = cursor;
             cursor += item.ratio || 0;
             return `${colors[item.tone] || colors.blue} ${start}% ${cursor}%`;
         });
+
         return `background: conic-gradient(${stops.join(", ") || "#e5e7eb 0% 100%"});`;
     }
 
+    // ================= KPI CLICK =================
     async openKpiAction(kpi) {
-        if (!kpi || !kpi.action || !kpi.action.type) {
-            return;
-        }
+        if (!kpi?.action?.type) return;
         await this.action.doAction(kpi.action);
     }
 
+    // ================= PANEL CLICK (NEW FIX) =================
+    async openPanelAction(action) {
+        if (!action) return;
+        await this.action.doAction(action);
+    }
+
+    // ================= QUICK ACTIONS =================
     openInvoices() {
         this.action.doAction("account.action_move_out_invoice_type");
     }
@@ -104,5 +134,10 @@ export class BusinessOverviewDashboard extends Component {
     }
 }
 
-BusinessOverviewDashboard.template = "kio_isp_business_dashboard.BusinessOverviewDashboard";
-registry.category("actions").add("kio_isp_business_dashboard.business_overview", BusinessOverviewDashboard);
+BusinessOverviewDashboard.template =
+    "kio_isp_business_dashboard.BusinessOverviewDashboard";
+
+registry.category("actions").add(
+    "kio_isp_business_dashboard.business_overview",
+    BusinessOverviewDashboard
+);
