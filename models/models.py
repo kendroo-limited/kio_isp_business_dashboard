@@ -506,11 +506,11 @@ class KioIspBusinessDashboard(models.AbstractModel):
 
     def _quick_nav_items(self):
         return [
-            {"label": "Accounting", "icon": "fa-calculator", "tone": "blue", "action": "kio_isp_management.action_isp_account_dashboard_client"},
-            {"label": "CRM", "icon": "fa-users", "tone": "green"},
-            {"label": "Sales", "icon": "fa-shopping-cart", "tone": "orange"},
-            {"label": "Billing", "icon": "fa-file-text-o", "tone": "violet"},
-            {"label": "Expenses", "icon": "fa-credit-card", "tone": "red"},
+            {"label": "Accounting Dashboard", "icon": "fa-calculator", "tone": "blue", "action": "kio_isp_management.action_isp_account_dashboard_client"},
+            {"label": "Expense Dashboard", "icon": "fa-users", "tone": "green"},
+            {"label": "Equity Dashboard", "icon": "fa-shopping-cart", "tone": "orange"},
+            {"label": "Operation Overview", "icon": "fa-file-text-o", "tone": "violet"},
+            {"label": "Capacity Dashboard", "icon": "fa-credit-card", "tone": "red"},
             {"label": "Customer Ledger", "icon": "fa-address-book-o", "tone": "cyan"},
             {"label": "Vendor Ledger", "icon": "fa-truck", "tone": "orange"},
             {"label": "Reports", "icon": "fa-bar-chart", "tone": "blue"},
