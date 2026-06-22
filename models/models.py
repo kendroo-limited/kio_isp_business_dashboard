@@ -16,6 +16,7 @@ class KioIspBusinessDashboard(models.AbstractModel):
         date_to = fields.Date.to_date(date_to) if date_to else today
 
         revenue = max(-self._sum_lines_by_account_type(["income", "income_other"], date_from, date_to), 0.0)
+        total_sales = self._invoice_total_amount(date_from, date_to)
         cogs = max(self._sum_lines_by_account_type(["expense_direct_cost"], date_from, date_to), 0.0)
         operating_expenses = max(self._sum_lines_by_account_type(["expense", "expense_depreciation"], date_from, date_to), 0.0)
         hr_expense_total = self._expense_total(date_from, date_to)
@@ -51,11 +52,11 @@ class KioIspBusinessDashboard(models.AbstractModel):
             "primary_kpis": [
                 self._kpi(
                     "Total Sales",
-                    revenue,
+                    total_sales,
                     "+12.6%",
                     "fa-line-chart",
                     "blue",
-                    action=self._sale_order_action("Total Sales", date_from, date_to),
+                    action=self._move_action("Total Sales", date_from, date_to, ["out_invoice"]),
                 ),
                 self._kpi(
                     "Total Collection",
@@ -65,15 +66,15 @@ class KioIspBusinessDashboard(models.AbstractModel):
                     "green",
                     action=self._payment_action("Total Collection", date_from, date_to, "inbound"),
                 ),
-                self._kpi(
-                    "Total Invoice",
-                    invoice_total,
-                    "+4.7%",
-                    "fa-file-text-o",
-                    "violet",
-                    "number",
-                    action=self._move_action("Total Invoice", date_from, date_to, ["out_invoice"]),
-                ),
+                # self._kpi(
+                #     "Total Invoice",
+                #     invoice_total,
+                #     "+4.7%",
+                #     "fa-file-text-o",
+                #     "violet",
+                #     "number",
+                #     action=self._move_action("Total Invoice", date_from, date_to, ["out_invoice"]),
+                # ),
                 self._kpi(
                     "Total Expenses",
                     hr_expense_total,
@@ -256,6 +257,14 @@ class KioIspBusinessDashboard(models.AbstractModel):
             ],
             "context": {"create": False},
         }
+
+    def _invoice_total_amount(self, date_from, date_to):
+        groups = self.env["account.move"].read_group(
+            self._posted_move_domain(date_from, date_to, ["out_invoice"]),
+            ["amount_total_signed:sum"],
+            [],
+        )
+        return groups[0]["amount_total_signed"] if groups else 0.0
 
     def _expense_domain(self, date_from, date_to):
         return [
