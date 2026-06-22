@@ -100,9 +100,12 @@
                     </article>
 
                     <!-- Cash Flow -->
-                    <t t-set="panelTitle" t-value="'Cash Flow Summary'"/>
-                    <t t-set="panelItems" t-value="state.data.cash_flow"/>
-                    <t t-call="kio_isp_business_dashboard.DonutPanel"/>
+                    <div class="kio_clickable_panel" t-on-click="() => this.openCashFlowReport()">
+                        <t t-set="panelTitle" t-value="'Cash Flow Summary'"/>
+                        <t t-set="panelItems" t-value="state.data.cash_flow"/>
+                        <t t-set="panelAction" t-value="false"/>
+                        <t t-call="kio_isp_business_dashboard.DonutPanel"/>
+                    </div>
 
                     <!-- Quick Navigation -->
                     <aside class="kio-quick-nav kio-card">

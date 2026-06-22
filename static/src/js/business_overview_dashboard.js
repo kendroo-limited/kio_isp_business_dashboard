@@ -125,6 +125,10 @@ export class BusinessOverviewDashboard extends Component {
         await this.action.doAction(action);
     }
 
+    openCashFlowReport() {
+        this.action.doAction("kio_account_reports.action_account_report_cs");
+    }
+
     // ================= QUICK ACTIONS =================
     openInvoices() {
         this.action.doAction("account.action_move_out_invoice_type");
