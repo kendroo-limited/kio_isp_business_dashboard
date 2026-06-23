@@ -204,12 +204,14 @@ export class BusinessOverviewDashboard extends Component {
         this.action.doAction("kio_account_reports.action_account_report_cs");
     }
 
-    openQuickNav(nav) {
-        if (!nav?.action) {
+    async openQuickNav(nav) {
+        const action = nav?.action_xml_id || nav?.action;
+
+        if (!action) {
             return;
         }
 
-        this.action.doAction(nav.action, {
+        await this.action.doAction(action, {
             additionalContext: {
                 from_business_dashboard: true,
                 business_dashboard_action: "kio_isp_business_dashboard.action_kio_isp_business_dashboard",

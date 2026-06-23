@@ -507,7 +507,12 @@ class KioIspBusinessDashboard(models.AbstractModel):
     def _quick_nav_items(self):
         return [
             {"label": "Accounting Dashboard", "icon": "fa-calculator", "tone": "blue", "action": "kio_isp_management.action_isp_account_dashboard_client"},
-            {"label": "Expense Dashboard", "icon": "fa-users", "tone": "green"},
+            {
+                "label": "Expense Dashboard",
+                "icon": "fa-users",
+                "tone": "green",
+                "action_xml_id": "kio_isp_management.action_isp_expense_dashboard_client",
+            },
             {"label": "Equity Dashboard", "icon": "fa-shopping-cart", "tone": "orange"},
             {"label": "Operation Overview", "icon": "fa-file-text-o", "tone": "violet"},
             {"label": "Capacity Dashboard", "icon": "fa-credit-card", "tone": "red"},
