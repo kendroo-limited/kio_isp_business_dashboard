@@ -25,6 +25,7 @@ Long description of module's purpose
         'hr_expense',
         'kio_account_accountant',
         'kio_account_reports',
+        'kio_owner_equity',
     ],
 
     # always loaded
@@ -43,4 +44,3 @@ Long description of module's purpose
         'demo/demo.xml',
     ],
 }
-

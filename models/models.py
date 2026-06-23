@@ -513,7 +513,12 @@ class KioIspBusinessDashboard(models.AbstractModel):
                 "tone": "green",
                 "action_xml_id": "kio_isp_management.action_isp_expense_dashboard_client",
             },
-            {"label": "Equity Dashboard", "icon": "fa-shopping-cart", "tone": "orange"},
+            {
+                "label": "Equity Dashboard",
+                "icon": "fa-shopping-cart",
+                "tone": "orange",
+                "action_xml_id": "kio_owner_equity.action_owner_equity_dashboard",
+            },
             {"label": "Operation Overview", "icon": "fa-file-text-o", "tone": "violet"},
             {"label": "Capacity Dashboard", "icon": "fa-credit-card", "tone": "red"},
             {"label": "Customer Ledger", "icon": "fa-address-book-o", "tone": "cyan"},
