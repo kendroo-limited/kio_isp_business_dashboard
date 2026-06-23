@@ -520,7 +520,12 @@ class KioIspBusinessDashboard(models.AbstractModel):
                 "action_xml_id": "kio_owner_equity.action_owner_equity_dashboard",
             },
             {"label": "Operation Overview", "icon": "fa-file-text-o", "tone": "violet"},
-            {"label": "Capacity Dashboard", "icon": "fa-credit-card", "tone": "red"},
+            {
+                "label": "Capacity Dashboard",
+                "icon": "fa-credit-card",
+                "tone": "red",
+                "action_xml_id": "kio_capacity_analysis.action_kio_capacity_dashboard",
+            },
             {"label": "Customer Ledger", "icon": "fa-address-book-o", "tone": "cyan"},
             {"label": "Vendor Ledger", "icon": "fa-truck", "tone": "orange"},
             {"label": "Reports", "icon": "fa-bar-chart", "tone": "blue"},

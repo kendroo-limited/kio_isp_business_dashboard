@@ -204,19 +204,24 @@ export class BusinessOverviewDashboard extends Component {
         this.action.doAction("kio_account_reports.action_account_report_cs");
     }
 
-    async openQuickNav(nav) {
-        const action = nav?.action_xml_id || nav?.action;
-
-        if (!action) {
+    async openQuickNav(card) {
+        if (!card?.action_xml_id && !card?.action) {
             return;
         }
 
-        await this.action.doAction(action, {
+        const actionOptions = {
             additionalContext: {
                 from_business_dashboard: true,
                 business_dashboard_action: "kio_isp_business_dashboard.action_kio_isp_business_dashboard",
             },
-        });
+        };
+
+        if (card.action_xml_id) {
+            await this.action.doAction(card.action_xml_id, actionOptions);
+            return;
+        }
+
+        await this.action.doAction(card.action, actionOptions);
     }
 
     // ================= QUICK ACTIONS =================
